@@ -1,28 +1,31 @@
 'use strict';
 
-function dogImage() {
-    fetch('https://dog.ceo/api/breeds/image/random')
-    .then(response => response.json())
-    .then(responseJson => console.log(responseJson))
-    .catch(error => alert('Something went wrong. Try again later.'));
+function dogImage(userVal) {
+    $('#image-cont').empty();
+    fetch(`https://dog.ceo/api/breed/${userVal}/images/random`)
+        .then(response => response.json())
+        .then(responseJson =>
+            displayResults(responseJson))
+        .catch(error => alert('Something went wrong. Try again later.'));
+    // return responseJson.message
 }
 
-function displayResults(userVal) {
-    for (let i=0; i<userVal; i++) {
-        // console.log(i);
-        dogImage();
-    }
+function displayResults(responseJson) {
+    $('#image-cont').append(`<img src="${responseJson.message}" class="results-img">`);
+    // console.log(responseJson.message.length);
+    // dogImage();
 }
 
 function watchForm() {
     $('form').submit(event => {
-      event.preventDefault();
-      console.log('button clicked')
-      const userTextElement = $(event.currentTarget).find('#pic-num');
-      const userVal = userTextElement.val()
-      console.log('usertextelement' + userTextElement.val())
-      displayResults(userVal);
+        event.preventDefault();
+        console.log('button clicked')
+        const userTextElement = $(event.currentTarget).find('#pic-num');
+        const userVal = userTextElement.val()
+        console.log('usertextelement ' + userTextElement.val())
+        //   dogImage(userVal);
+        dogImage(userVal);
     });
-  }
+}
 
 $(watchForm())
