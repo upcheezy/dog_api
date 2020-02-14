@@ -3,11 +3,22 @@
 function dogImage(userVal) {
     $('#image-cont').empty();
     fetch(`https://dog.ceo/api/breed/${userVal}/images/random`)
-        .then(response => response.json())
-        .then(responseJson =>
-            displayResults(responseJson))
-        .catch(error => alert('Something went wrong. Try again later.'));
+        .then(response => {
+            if (response.status === 200) {
+                response.json()
+                .then(responseJson =>
+                    displayResults(responseJson));
+            } else {
+                failed(response)
+            }
+            console.log(response);
+        })
+        .catch(error => handleErrors());
     // return responseJson.message
+}
+
+function handleErrors() {
+    alert(`sorry, that breed was not found`);
 }
 
 function displayResults(responseJson) {
