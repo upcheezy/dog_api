@@ -1,7 +1,7 @@
 'use strict';
 
 function dogImage(userVal) {
-    if (userVal > 50) {
+    if (userVal > 50 || userVal < 0) {
         alert(`sorry, that's too many puppies`)
     } else {
         $('#image-cont').empty();
